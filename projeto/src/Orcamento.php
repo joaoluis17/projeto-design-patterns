@@ -20,19 +20,18 @@ class Orcamento
 
     public function aplicarDescontoExtra()
     {
-        $this->valor -= $this->calculaDescontoExtra();
+        $this->valor -= $this->estadoAtual->calculaDescontoExtra($this);
     }
 
-    public function calculaDescontoExtra() : float
-    {
-        if ($this->estadoAtual == 'EM_APROVACAO') {
-            return $this->valor * 0.05;
-        }
+    public function aprova() {
+        $this->estadoAtual->aprova($this);
+    }
 
-        if ($this->estadoAtual == 'APROVADO') {
-            return $this->valor * 0.02;
-        }
+    public function reprova() {
+        $this->estadoAtual->reprova($this);
+    }
 
-        throw new \DomainException('Orçamentos reprovados e finalizados não podem receber desconto');
+    public function finaliza() {
+        $this->estadoAtual->finaliza($this);
     }
 }
